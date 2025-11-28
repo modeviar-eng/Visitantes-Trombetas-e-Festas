@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Visitantes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .loader {
+            border: 3px solid #f3f3f3; border-top: 3px solid #4f46e5;
+            border-radius: 50%; width: 20px; height: 20px;
+            animation: spin 1s linear infinite; display: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Transição suave para abas */
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-8 px-4">
+
+    <div class="bg-white p-1 rounded-lg shadow-sm mb-6 flex space-x-1 w-full max-w-2xl">
+        <button onclick="switchTab('cadastro')" id="tab-cadastro" class="flex-1 py-2 px-4 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 transition-colors">
+            📝 Novo Cadastro
+        </button>
+        <button onclick="switchTab('historico')" id="tab-historico" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            📂 Histórico & Filtros
+        </button>
+    </div>
+
+    <div id="view-cadastro" class="tab-content active w-full max-w-2xl bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Bem-vindo!</h1>
+        <p class="text-center text-gray-500 mb-6">Preencha seus dados para o nosso evento.</p>
+
+        <form id="formularioVisitante" class="space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
+                <input type="text" id="nome" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">WhatsApp</label>
+                    <input type="tel" id="telefone" placeholder="(XX) 9XXXX-XXXX" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
+                    <div class="flex space-x-4 mt-2">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="radio" name="sexo" value="Masculino" class="form-radio text-indigo-600">
+                            <span class="ml-2 text-gray-600">Masculino</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="radio" name="sexo" value="Feminino" class="form-radio text-indigo-600">
+                            <span class="ml-2 text-gray-600">Feminino</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Endereço (Rua, Bairro, Cidade)</label>
+                <input type="text" id="endereco" placeholder="Ex: Rua A, Centro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Quem te convidou?</label>
+                <input type="text" id="convidado_por" placeholder="Digite o nome do membro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Faixa Etária</label>
+                <div class="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="0-3" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">0 a 3</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="3-7" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">3 a 7</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="7-11" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">7 a 11</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="11-15" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">11 a 15</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="15-30" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">15 a 30</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="30-60" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">30 a 60</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria" value="60+" class="sr-only peer">
+                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">60+</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div>
+                <label for="experiencia" class="block text-sm font-medium text-gray-700">Experiência com o evento (Opcional)</label>
+                <textarea id="experiencia" rows="3" placeholder="Seus comentários ou pedidos de oração."
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+            </div>
+
+            <button type="submit" id="submitButton" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-md transition duration-200 flex justify-center items-center">
+                <span>Confirmar Presença</span>
+                <div id="loader" class="loader ml-3"></div>
+            </button>
+            <div id="feedbackMessage" class="hidden p-3 rounded-md text-sm text-center font-medium"></div>
+        </form>
+    </div>
+
+    <div id="view-historico" class="tab-content w-full max-w-4xl bg-white p-6 rounded-xl shadow-lg border border-gray-100 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Histórico de Visitantes</h2>
+            <button onclick="carregarHistorico()" class="text-sm text-indigo-600 hover:underline flex items-center">
+                🔄 Atualizar Lista
+            </button>
+        </div>
+
+        <div class="mb-6">
+             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida por Localidade</label>
+             <input type="text" id="buscaLocalidade" oninput="aplicarFiltros()" placeholder="Digite um bairro ou rua (Ex: Centro)" 
+                    class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">1. Convidado Por (Membro)</label>
+                <select id="filtroMembro" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                    <option value="">Todos os Membros</option>
+                    </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">2. Faixa Etária</label>
+                <select id="filtroIdade" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                    <option value="">Todas as idades</option>
+                    <option value="0-3">0 a 3 anos</option>
+                    <option value="3-7">3 a 7 anos</option>
+                    <option value="7-11">7 a 11 anos</option>
+                    <option value="11-15">11 a 15 anos</option>
+                    <option value="15-30">15 a 30 anos</option>
+                    <option value="30-60">30 a 60 anos</option>
+                    <option value="60+">60 anos ou mais</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">3. Sexo</label>
+                <select id="filtroSexo" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                    <option value="">Todos</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Não informado">Não informado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localidade</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perfil</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Convidado Por</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaCorpo" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+            </table>
+            <div id="loadingHistorico" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
+            <div id="semResultados" class="text-center py-4 text-gray-500 hidden">Nenhum visitante encontrado com esses filtros.</div>
+        </div>
+        
+        <div class="mt-4 text-right text-xs text-gray-400">
+            Total listado: <span id="contadorTotal" class="font-bold text-gray-700">0</span>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        // CONFIGURAÇÃO DO FIREBASE (MANTIDA)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpsd7fK3p6SOavvVUxCVkAoU_KKSMHXX0",
+            authDomain: "visitantes-tf.firebaseapp.com",
+            projectId: "visitantes-tf",
+            storageBucket: "visitantes-tf.firebasestorage.app",
+            messagingSenderId: "662740182528",
+            appId: "1:662740182528:web:eeada0fd13ca09148adae5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // VARIÁVEIS GLOBAIS
+        let todosVisitantes = [];
+        
+        // --- FUNÇÕES DE INTERFACE (ABAS) ---
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('hidden');
+            });
+            document.getElementById('tab-cadastro').className = "flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors cursor-pointer";
+            document.getElementById('tab-historico').className = "flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors cursor-pointer";
+            
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.className = "flex-1 py-2 px-4 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 transition-colors cursor-pointer shadow-sm";
+            
+            const activeView = document.getElementById(`view-${tabName}`);
+            activeView.classList.remove('hidden');
+            activeView.classList.add('active');
+
+            if(tabName === 'historico') {
+                carregarHistorico();
+            }
+        };
+
+        // --- AUTENTICAÇÃO ---
+        async function authenticate() {
+            try {
+                await signInAnonymously(auth);
+                console.log("Auth OK");
+            } catch (error) {
+                console.error("Erro Auth:", error);
+                const feedbackMessage = document.getElementById('feedbackMessage');
+                feedbackMessage.textContent = "Erro ao conectar com servidor. Verifique o console do Firebase.";
+                feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-red-100 text-red-700 block mt-4";
+            }
+        }
+
+        // --- ENVIO DO FORMULÁRIO ---
+        const form = document.getElementById('formularioVisitante');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const submitButton = document.getElementById('submitButton');
+        const loader = document.getElementById('loader');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitButton.disabled = true;
+            loader.style.display = 'block';
+
+            const nome = document.getElementById('nome').value.trim();
+            
+            const sexoEl = document.querySelector('input[name="sexo"]:checked');
+            const sexo = sexoEl ? sexoEl.value : "Não informado";
+
+            const faixaEl = document.querySelector('input[name="faixa_etaria"]:checked');
+            const faixaEtaria = faixaEl ? faixaEl.value : "Não Informada";
+            
+            // NOVO CAMPO: Experiência
+            const experiencia = document.getElementById('experiencia').value.trim();
+
+            const dados = {
+                nome: nome,
+                telefone: document.getElementById('telefone').value.trim(),
+                endereco: document.getElementById('endereco').value.trim() || "Não informado",
+                sexo: sexo,
+                convidadoPor: document.getElementById('convidado_por').value.trim() || "Não informado",
+                faixaEtaria: faixaEtaria,
+                experiencia: experiencia || "Sem comentário", // Adiciona a experiência
+                dataRegistro: new Date().toISOString()
+            };
+
+            try {
+                await addDoc(collection(db, "visitantes"), dados);
+                
+                feedbackMessage.textContent = "🎉 Cadastro realizado com sucesso!";
+                feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-green-100 text-green-700 block mt-4";
+                form.reset();
+            } catch (error) {
+                console.error(error);
+                feedbackMessage.textContent = "❌ Erro ao salvar. Verifique se o 'Anonymous Auth' está ativado no Firebase.";
+                feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-red-100 text-red-700 block mt-4";
+            } finally {
+                submitButton.disabled = false;
+                loader.style.display = 'none';
+                setTimeout(() => feedbackMessage.classList.add('hidden'), 5000);
+            }
+        });
+
+        // --- LÓGICA DO HISTÓRICO E FILTROS (Mantida) ---
+        
+        window.carregarHistorico = async function() {
+            const loading = document.getElementById('loadingHistorico');
+            const tbody = document.getElementById('tabelaCorpo');
+            const selectMembro = document.getElementById('filtroMembro');
+
+            tbody.innerHTML = '';
+            loading.classList.remove('hidden');
+
+            try {
+                const q = query(collection(db, "visitantes"), orderBy("dataRegistro", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                todosVisitantes = [];
+                const membrosSet = new Set();
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    todosVisitantes.push(data);
+                    
+                    if(data.convidadoPor && data.convidadoPor !== "Não informado") {
+                        const nomeFormatado = data.convidadoPor.trim();
+                        membrosSet.add(nomeFormatado);
+                    }
+                });
+
+                selectMembro.innerHTML = '<option value="">Todos os Membros</option>';
+                Array.from(membrosSet).sort().forEach(membro => {
+                    const option = document.createElement('option');
+                    option.value = membro;
+                    option.textContent = membro;
+                    selectMembro.appendChild(option);
+                });
+
+                aplicarFiltros();
+
+            } catch (error) {
+                console.error("Erro ao buscar histórico:", error);
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-500">Erro ao carregar dados. Verifique permissões.</td></tr>`;
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        window.aplicarFiltros = function() {
+            const fMembro = document.getElementById('filtroMembro').value.toLowerCase();
+            const fIdade = document.getElementById('filtroIdade').value;
+            const fSexo = document.getElementById('filtroSexo').value;
+            const fLocalidade = document.getElementById('buscaLocalidade').value.toLowerCase().trim();
+
+            const filtrados = todosVisitantes.filter(v => {
+                const enderecoStr = v.endereco ? v.endereco.toLowerCase() : "";
+                
+                const matchLocalidade = fLocalidade === "" || enderecoStr.includes(fLocalidade);
+                const matchMembro = fMembro === "" || (v.convidadoPor && v.convidadoPor.toLowerCase().includes(fMembro));
+                const matchIdade = fIdade === "" || v.faixaEtaria === fIdade;
+                const matchSexo = fSexo === "" || v.sexo === fSexo;
+                
+                return matchLocalidade && matchMembro && matchIdade && matchSexo;
+            });
+
+            renderizarTabela(filtrados);
+        }
+
+        function renderizarTabela(lista) {
+            const tbody = document.getElementById('tabelaCorpo');
+            const semResultados = document.getElementById('semResultados');
+            const contador = document.getElementById('contadorTotal');
+            
+            tbody.innerHTML = '';
+            contador.textContent = lista.length;
+
+            if (lista.length === 0) {
+                semResultados.classList.remove('hidden');
+                return;
+            } else {
+                semResultados.classList.add('hidden');
+            }
+
+            lista.forEach(v => {
+                const dataObj = v.dataRegistro ? new Date(v.dataRegistro) : new Date();
+                const dataFormatada = dataObj.toLocaleDateString('pt-BR');
+                const corBadge = v.sexo === 'Masculino' ? 'bg-blue-100 text-blue-800' : (v.sexo === 'Feminino' ? 'bg-pink-100 text-pink-800' : 'bg-gray-100 text-gray-800');
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-4 py-3">
+                        <div class="text-sm font-medium text-gray-900">${v.nome}</div>
+                        <div class="text-xs text-gray-500">${v.telefone || '-'}</div>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-gray-500">${v.endereco || 'Não informado'}</td>
+                    <td class="px-4 py-3 whitespace-nowrap">
+                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${corBadge}">
+                            ${v.sexo || '?'}
+                        </span>
+                        <div class="text-xs text-gray-500 mt-1">${v.faixaEtaria}</div>
+                    </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400">
+                        ${v.convidadoPor}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Event Listeners
+        document.getElementById('buscaLocalidade').addEventListener('input', aplicarFiltros);
+        document.getElementById('filtroMembro').addEventListener('change', aplicarFiltros);
+        document.getElementById('filtroIdade').addEventListener('change', aplicarFiltros);
+        document.getElementById('filtroSexo').addEventListener('change', aplicarFiltros);
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            authenticate();
+        });
+
+    </script>
+</body>
+</html>
