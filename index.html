@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Visitantes</title>
+    <title>Sistema de Gestão de Presença</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,43 +18,56 @@
         .tab-content { display: none; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Estilos específicos para a nova aba de resumo */
+        .card-resumo {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center py-8 px-4">
 
-    <div class="bg-white p-1 rounded-lg shadow-sm mb-6 flex space-x-1 w-full max-w-2xl">
-        <button onclick="switchTab('cadastro')" id="tab-cadastro" class="flex-1 py-2 px-4 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 transition-colors">
-            📝 Novo Cadastro
+    <div class="bg-white p-1 rounded-lg shadow-xl mb-6 flex space-x-1 w-full max-w-4xl">
+        <button onclick="switchTab('cadastroVisitante')" id="tab-cadastroVisitante" class="flex-1 py-2 px-4 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 transition-colors">
+            📝 Cadastrar Visitante
         </button>
-        <button onclick="switchTab('historico')" id="tab-historico" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
-            📂 Histórico & Filtros
+        <button onclick="switchTab('cadastroMembro')" id="tab-cadastroMembro" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            👤 Cadastrar Membro
+        </button>
+        <button onclick="switchTab('historicoVisitantes')" id="tab-historicoVisitantes" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            📂 Histórico Visitantes
+        </button>
+        <button onclick="switchTab('historicoGeral')" id="tab-historicoGeral" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors">
+            📊 Histórico Geral
         </button>
     </div>
 
-    <div id="view-cadastro" class="tab-content active w-full max-w-2xl bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-        <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Bem-vindo!</h1>
-        <p class="text-center text-gray-500 mb-6">Preencha seus dados para o nosso evento.</p>
+    <div id="view-cadastroVisitante" class="tab-content active w-full max-w-2xl bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Novo Visitante</h1>
+        <p class="text-center text-gray-500 mb-6">Ficha de registro para quem está nos visitando.</p>
 
         <form id="formularioVisitante" class="space-y-5">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
-                <input type="text" id="nome" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                <input type="text" id="nome_visitante" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">WhatsApp</label>
-                    <input type="tel" id="telefone" placeholder="(XX) 9XXXX-XXXX" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="tel" id="telefone_visitante" placeholder="(XX) 9XXXX-XXXX" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
                     <div class="flex space-x-4 mt-2">
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="sexo" value="Masculino" class="form-radio text-indigo-600">
+                            <input type="radio" name="sexo_visitante" value="Masculino" class="form-radio text-indigo-600">
                             <span class="ml-2 text-gray-600">Masculino</span>
                         </label>
                         <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" name="sexo" value="Feminino" class="form-radio text-indigo-600">
+                            <input type="radio" name="sexo_visitante" value="Feminino" class="form-radio text-indigo-600">
                             <span class="ml-2 text-gray-600">Feminino</span>
                         </label>
                     </div>
@@ -63,103 +76,198 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Endereço (Rua, Bairro, Cidade)</label>
-                <input type="text" id="endereco" placeholder="Ex: Rua A, Centro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                <input type="text" id="endereco_visitante" placeholder="Ex: Rua A, Centro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Quem te convidou?</label>
-                <input type="text" id="convidado_por" placeholder="Digite o nome do membro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                <input type="text" id="convidado_por_visitante" placeholder="Digite o nome do membro" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Faixa Etária</label>
                 <div class="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="0-3" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">0 a 3</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="0-3" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">0 a 3</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="3-7" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">3 a 7</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="3-7" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">3 a 7</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="7-11" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">7 a 11</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="7-11" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">7 a 11</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="11-15" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">11 a 15</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="11-15" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">11 a 15</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="15-30" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">15 a 30</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="15-30" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">15 a 30</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="30-60" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">30 a 60</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="30-60" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">30 a 60</span>
                     </label>
                     <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                        <input type="radio" name="faixa_etaria" value="60+" class="sr-only peer">
-                        <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">60+</span>
+                        <input type="radio" name="faixa_etaria_visitante" value="60+" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-indigo-600 peer-checked:font-bold">60+</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50 p-3 rounded-lg border border-indigo-100">
+                <label class="block text-sm font-semibold text-indigo-900 mb-1">Gostaria de receber uma visita?</label>
+                <div class="flex space-x-6 mt-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="receber_visita_visitante" value="Sim" class="form-radio text-indigo-600 w-4 h-4">
+                        <span class="ml-2 text-gray-700 font-medium">Sim</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="receber_visita_visitante" value="Não" class="form-radio text-gray-400 w-4 h-4">
+                        <span class="ml-2 text-gray-600">Não</span>
                     </label>
                 </div>
             </div>
             
             <div>
-                <label for="experiencia" class="block text-sm font-medium text-gray-700">Experiência com o evento (Opcional)</label>
-                <textarea id="experiencia" rows="3" placeholder="Seus comentários ou pedidos de oração."
+                <label for="experiencia_visitante" class="block text-sm font-medium text-gray-700">Experiência com o evento (Opcional)</label>
+                <textarea id="experiencia_visitante" rows="3" placeholder="Seus comentários ou pedidos de oração."
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
             </div>
 
-            <button type="submit" id="submitButton" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-md transition duration-200 flex justify-center items-center">
-                <span>Confirmar Presença</span>
-                <div id="loader" class="loader ml-3"></div>
+            <button type="submit" id="submitButtonVisitante" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-md transition duration-200 flex justify-center items-center">
+                <span>Confirmar Presença de Visitante</span>
+                <div id="loaderVisitante" class="loader ml-3"></div>
             </button>
-            <div id="feedbackMessage" class="hidden p-3 rounded-md text-sm text-center font-medium"></div>
+            <div id="feedbackMessageVisitante" class="hidden p-3 rounded-md text-sm text-center font-medium"></div>
         </form>
     </div>
 
-    <div id="view-historico" class="tab-content w-full max-w-4xl bg-white p-6 rounded-xl shadow-lg border border-gray-100 hidden">
+    <div id="view-cadastroMembro" class="tab-content w-full max-w-2xl bg-white p-6 rounded-xl shadow-lg border border-gray-100 hidden">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Novo Membro</h1>
+        <p class="text-center text-gray-500 mb-6">Registro para contabilizar a presença de membros.</p>
+
+        <form id="formularioMembro" class="space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
+                <input type="text" id="nome_membro" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Sexo</label>
+                <div class="flex space-x-4 mt-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="sexo_membro" value="Masculino" class="form-radio text-green-600">
+                        <span class="ml-2 text-gray-600">Masculino</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="sexo_membro" value="Feminino" class="form-radio text-green-600">
+                        <span class="ml-2 text-gray-600">Feminino</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Faixa Etária</label>
+                <div class="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="0-3" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">0 a 3</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="3-7" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">3 a 7</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="7-11" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">7 a 11</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="11-15" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">11 a 15</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="15-30" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">15 a 30</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="30-60" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">30 a 60</span>
+                    </label>
+                    <label class="border rounded-md p-2 flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="faixa_etaria_membro" value="60+" class="sr-only peer"> <span class="text-xs text-gray-600 peer-checked:text-green-600 peer-checked:font-bold">60+</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Função/Ministério (Opcional)</label>
+                    <input type="text" id="funcao_membro" placeholder="Ex: Diácono, Líder de Louvor, etc." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                </div>
+                
+                <div class="col-span-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Grupo de Assistência (Opcional)</label>
+                    <div class="flex space-x-3 mt-1">
+                        <label class="inline-flex items-center cursor-pointer border rounded-md p-2 px-3 hover:bg-gray-50">
+                            <input type="radio" name="grupo_assistencia_membro" value="Grupo 1" class="form-radio text-green-600">
+                            <span class="ml-2 text-sm text-gray-600">Grupo 1</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer border rounded-md p-2 px-3 hover:bg-gray-50">
+                            <input type="radio" name="grupo_assistencia_membro" value="Grupo 2" class="form-radio text-green-600">
+                            <span class="ml-2 text-sm text-gray-600">Grupo 2</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer border rounded-md p-2 px-3 hover:bg-gray-50">
+                            <input type="radio" name="grupo_assistencia_membro" value="Grupo 3" class="form-radio text-green-600">
+                            <span class="ml-2 text-sm text-gray-600">Grupo 3</span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+            
+            <button type="submit" id="submitButtonMembro" class="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold shadow-md transition duration-200 flex justify-center items-center">
+                <span>Confirmar Presença de Membro</span>
+                <div id="loaderMembro" class="loader ml-3 border-top-green"></div>
+            </button>
+            <div id="feedbackMessageMembro" class="hidden p-3 rounded-md text-sm text-center font-medium"></div>
+        </form>
+    </div>
+
+    <div id="view-historicoVisitantes" class="tab-content w-full max-w-4xl bg-white p-6 rounded-xl shadow-lg border border-gray-100 hidden">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Histórico de Visitantes</h2>
-            <button onclick="carregarHistorico()" class="text-sm text-indigo-600 hover:underline flex items-center">
+            <h2 class="text-xl font-bold text-gray-800">Histórico de VISITANTES</h2>
+            <button onclick="carregarHistoricoGeral(true)" class="text-sm text-indigo-600 hover:underline flex items-center">
                 🔄 Atualizar Lista
             </button>
         </div>
 
         <div class="mb-6">
-             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida por Localidade</label>
-             <input type="text" id="buscaLocalidade" oninput="aplicarFiltros()" placeholder="Digite um bairro ou rua (Ex: Centro)" 
+             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Localidade)</label>
+             <input type="text" id="buscaInputVisitante" oninput="aplicarFiltrosVisitantes()" placeholder="Digite um nome, bairro ou rua..." 
                     class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
             <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">1. Convidado Por (Membro)</label>
-                <select id="filtroMembro" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
-                    <option value="">Todos os Membros</option>
-                    </select>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">1. Convidado Por</label>
+                <select id="filtroMembro" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                    <option value="">Todos</option>
+                </select>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">2. Faixa Etária</label>
-                <select id="filtroIdade" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
-                    <option value="">Todas as idades</option>
-                    <option value="0-3">0 a 3 anos</option>
-                    <option value="3-7">3 a 7 anos</option>
-                    <option value="7-11">7 a 11 anos</option>
-                    <option value="11-15">11 a 15 anos</option>
-                    <option value="15-30">15 a 30 anos</option>
-                    <option value="30-60">30 a 60 anos</option>
+                <select id="filtroIdade" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                    <option value="">Todas</option>
+                    <option value="0-3">0 a 3 anos</option><option value="3-7">3 a 7 anos</option><option value="7-11">7 a 11 anos</option>
+                    <option value="11-15">11 a 15 anos</option><option value="15-30">15 a 30 anos</option><option value="30-60">30 a 60 anos</option>
                     <option value="60+">60 anos ou mais</option>
                 </select>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">3. Sexo</label>
-                <select id="filtroSexo" onchange="aplicarFiltros()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                <select id="filtroSexoVisitante" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
                     <option value="">Todos</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Feminino">Feminino</option>
                     <option value="Não informado">Não informado</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">4. Quer Visita?</label>
+                <select id="filtroVisita" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 font-medium text-indigo-700 bg-indigo-50">
+                    <option value="">Todos</option>
+                    <option value="Sim">✅ Sim, quer visita</option>
+                    <option value="Não">❌ Não</option>
                 </select>
             </div>
         </div>
@@ -171,20 +279,84 @@
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localidade</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perfil</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visita?</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Convidado Por</th>
                     </tr>
                 </thead>
-                <tbody id="tabelaCorpo" class="bg-white divide-y divide-gray-200">
-                    </tbody>
+                <tbody id="tabelaCorpoVisitantes" class="bg-white divide-y divide-gray-200"></tbody>
             </table>
-            <div id="loadingHistorico" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
-            <div id="semResultados" class="text-center py-4 text-gray-500 hidden">Nenhum visitante encontrado com esses filtros.</div>
+            <div id="loadingHistoricoVisitantes" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
+            <div id="semResultadosVisitantes" class="text-center py-4 text-gray-500 hidden">Nenhum visitante encontrado com esses filtros.</div>
         </div>
         
         <div class="mt-4 text-right text-xs text-gray-400">
-            Total listado: <span id="contadorTotal" class="font-bold text-gray-700">0</span>
+            Visitantes listados: <span id="contadorTotalVisitantes" class="font-bold text-gray-700">0</span>
         </div>
     </div>
+
+
+    <div id="view-historicoGeral" class="tab-content w-full max-w-4xl bg-gray-50 p-6 rounded-xl shadow-lg border border-gray-100 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-gray-800">📊 Histórico Geral & Resumo</h2>
+            <button onclick="carregarHistoricoGeral(true)" class="text-sm text-indigo-600 hover:underline flex items-center">
+                🔄 Atualizar Totais
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="card-resumo bg-indigo-50 border-l-4 border-indigo-500">
+                <div class="text-sm font-medium text-indigo-600">Total Geral</div>
+                <div id="totalGeral" class="text-3xl font-bold text-gray-900">0</div>
+            </div>
+            <div class="card-resumo bg-blue-50 border-l-4 border-blue-500">
+                <div class="text-sm font-medium text-blue-600">Total Visitantes</div>
+                <div id="totalVisitantes" class="text-3xl font-bold text-gray-900">0</div>
+            </div>
+            <div class="card-resumo bg-green-50 border-l-4 border-green-500">
+                <div class="text-sm font-medium text-green-600">Total Membros</div>
+                <div id="totalMembros" class="text-3xl font-bold text-gray-900">0</div>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Lista Unificada</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Contato)</label>
+                    <input type="text" id="buscaInputGeral" oninput="aplicarFiltrosGerais()" placeholder="Buscar por nome ou telefone..." 
+                           class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Filtro por Tipo</label>
+                    <select id="filtroTipoPessoa" onchange="aplicarFiltrosGerais()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 bg-gray-100 font-medium">
+                        <option value="">TODOS (Visitantes e Membros)</option>
+                        <option value="Visitante">Somente Visitantes</option>
+                        <option value="Membro">Somente Membros</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detalhes</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaCorpoGeral" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+                <div id="loadingHistoricoGeral" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
+                <div id="semResultadosGeral" class="text-center py-4 text-gray-500 hidden">Nenhuma pessoa encontrada com esse filtro.</div>
+            </div>
+            <div class="mt-4 text-right text-xs text-gray-400">
+                Pessoas listadas: <span id="contadorTotalGeral" class="font-bold text-gray-700">0</span>
+            </div>
+        </div>
+    </div>
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -206,7 +378,7 @@
         const auth = getAuth(app);
 
         // VARIÁVEIS GLOBAIS
-        let todosVisitantes = [];
+        let todosRegistros = []; // Armazena Visitantes E Membros
         
         // --- FUNÇÕES DE INTERFACE (ABAS) ---
         window.switchTab = function(tabName) {
@@ -214,18 +386,28 @@
                 el.classList.remove('active');
                 el.classList.add('hidden');
             });
-            document.getElementById('tab-cadastro').className = "flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors cursor-pointer";
-            document.getElementById('tab-historico').className = "flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors cursor-pointer";
+            
+            document.querySelectorAll('button[id^="tab-"]').forEach(btn => {
+                btn.className = "flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors cursor-pointer";
+            });
             
             const activeBtn = document.getElementById(`tab-${tabName}`);
-            activeBtn.className = "flex-1 py-2 px-4 rounded-md text-sm font-medium bg-indigo-100 text-indigo-700 transition-colors cursor-pointer shadow-sm";
+            // Define a cor de fundo com base no tipo de aba
+            let bgColor = 'bg-indigo-100 text-indigo-700';
+            if (tabName === 'cadastroMembro') {
+                bgColor = 'bg-green-100 text-green-700';
+            } else if (tabName === 'historicoGeral') {
+                bgColor = 'bg-gray-200 text-gray-700';
+            }
+            activeBtn.className = `flex-1 py-2 px-4 rounded-md text-sm font-medium ${bgColor} transition-colors cursor-pointer shadow-sm`;
             
             const activeView = document.getElementById(`view-${tabName}`);
             activeView.classList.remove('hidden');
             activeView.classList.add('active');
 
-            if(tabName === 'historico') {
-                carregarHistorico();
+            // Carregamento de dados específicos para abas de histórico
+            if(['historicoVisitantes', 'historicoGeral'].includes(tabName)) {
+                carregarHistoricoGeral();
             }
         };
 
@@ -236,132 +418,255 @@
                 console.log("Auth OK");
             } catch (error) {
                 console.error("Erro Auth:", error);
-                const feedbackMessage = document.getElementById('feedbackMessage');
-                feedbackMessage.textContent = "Erro ao conectar com servidor. Verifique o console do Firebase.";
-                feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-red-100 text-red-700 block mt-4";
             }
         }
 
-        // --- ENVIO DO FORMULÁRIO ---
-        const form = document.getElementById('formularioVisitante');
-        const feedbackMessage = document.getElementById('feedbackMessage');
-        const submitButton = document.getElementById('submitButton');
-        const loader = document.getElementById('loader');
+        // --- FUNÇÃO GENÉRICA DE SUBMISSÃO (REUTILIZADA) ---
+        async function submitForm(formId, data, type) {
+            const form = document.getElementById(formId);
+            const submitButton = document.getElementById(`submitButton${type}`);
+            const loader = document.getElementById(`loader${type}`);
+            const feedbackMessage = document.getElementById(`feedbackMessage${type}`);
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
             submitButton.disabled = true;
             loader.style.display = 'block';
-
-            const nome = document.getElementById('nome').value.trim();
-            
-            const sexoEl = document.querySelector('input[name="sexo"]:checked');
-            const sexo = sexoEl ? sexoEl.value : "Não informado";
-
-            const faixaEl = document.querySelector('input[name="faixa_etaria"]:checked');
-            const faixaEtaria = faixaEl ? faixaEl.value : "Não Informada";
-            
-            // NOVO CAMPO: Experiência
-            const experiencia = document.getElementById('experiencia').value.trim();
-
-            const dados = {
-                nome: nome,
-                telefone: document.getElementById('telefone').value.trim(),
-                endereco: document.getElementById('endereco').value.trim() || "Não informado",
-                sexo: sexo,
-                convidadoPor: document.getElementById('convidado_por').value.trim() || "Não informado",
-                faixaEtaria: faixaEtaria,
-                experiencia: experiencia || "Sem comentário", // Adiciona a experiência
-                dataRegistro: new Date().toISOString()
-            };
+            feedbackMessage.classList.add('hidden');
 
             try {
-                await addDoc(collection(db, "visitantes"), dados);
+                await addDoc(collection(db, "visitantes"), data); // Usando a mesma coleção
                 
-                feedbackMessage.textContent = "🎉 Cadastro realizado com sucesso!";
-                feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-green-100 text-green-700 block mt-4";
+                feedbackMessage.textContent = `🎉 Cadastro de ${type.toLowerCase()} realizado com sucesso!`;
+                feedbackMessage.className = `p-3 rounded-md text-sm text-center font-medium bg-${type === 'Visitante' ? 'indigo' : 'green'}-100 text-${type === 'Visitante' ? 'indigo' : 'green'}-700 block mt-4`;
                 form.reset();
             } catch (error) {
                 console.error(error);
-                feedbackMessage.textContent = "❌ Erro ao salvar. Verifique se o 'Anonymous Auth' está ativado no Firebase.";
+                feedbackMessage.textContent = `❌ Erro ao salvar o ${type.toLowerCase()}. Tente novamente.`;
                 feedbackMessage.className = "p-3 rounded-md text-sm text-center font-medium bg-red-100 text-red-700 block mt-4";
             } finally {
                 submitButton.disabled = false;
                 loader.style.display = 'none';
                 setTimeout(() => feedbackMessage.classList.add('hidden'), 5000);
             }
+        }
+
+        // --- ENVIO DO FORMULÁRIO DE VISITANTE ---
+        document.getElementById('formularioVisitante').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const sexoEl = document.querySelector('input[name="sexo_visitante"]:checked');
+            const faixaEl = document.querySelector('input[name="faixa_etaria_visitante"]:checked');
+            const visitaEl = document.querySelector('input[name="receber_visita_visitante"]:checked');
+
+            const dados = {
+                tipo: "Visitante",
+                nome: document.getElementById('nome_visitante').value.trim(),
+                telefone: document.getElementById('telefone_visitante').value.trim(),
+                endereco: document.getElementById('endereco_visitante').value.trim() || "Não informado",
+                sexo: sexoEl ? sexoEl.value : "Não informado",
+                convidadoPor: document.getElementById('convidado_por_visitante').value.trim() || "Não informado",
+                faixaEtaria: faixaEl ? faixaEl.value : "Não Informada",
+                receberVisita: visitaEl ? visitaEl.value : "Não informado",
+                experiencia: document.getElementById('experiencia_visitante').value.trim() || "Sem comentário",
+                dataRegistro: new Date().toISOString()
+            };
+            
+            submitForm('formularioVisitante', dados, 'Visitante');
         });
 
-        // --- LÓGICA DO HISTÓRICO E FILTROS (Mantida) ---
-        
-        window.carregarHistorico = async function() {
-            const loading = document.getElementById('loadingHistorico');
-            const tbody = document.getElementById('tabelaCorpo');
-            const selectMembro = document.getElementById('filtroMembro');
+        // --- ENVIO DO FORMULÁRIO DE MEMBRO ---
+        document.getElementById('formularioMembro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const sexoEl = document.querySelector('input[name="sexo_membro"]:checked');
+            const faixaEl = document.querySelector('input[name="faixa_etaria_membro"]:checked');
+            // NOVO: Coleta o valor do grupo de assistência
+            const grupoEl = document.querySelector('input[name="grupo_assistencia_membro"]:checked');
 
-            tbody.innerHTML = '';
+            const dados = {
+                tipo: "Membro", 
+                nome: document.getElementById('nome_membro').value.trim(),
+                telefone: "N/A - Cadastro Membro", 
+                endereco: "Membro", 
+                sexo: sexoEl ? sexoEl.value : "Não informado",
+                faixaEtaria: faixaEl ? faixaEl.value : "Não Informada", 
+                funcao: document.getElementById('funcao_membro').value.trim() || "Não informado",
+                // NOVO: Usa o valor do rádio button, se selecionado
+                grupoAssistencia: grupoEl ? grupoEl.value : "Não informado", 
+                dataRegistro: new Date().toISOString()
+            };
+            
+            submitForm('formularioMembro', dados, 'Membro');
+        });
+
+        // --- LÓGICA DO HISTÓRICO GERAL (Nova Aba) ---
+        
+        window.carregarHistoricoGeral = async function() {
+            const loading = document.getElementById('loadingHistoricoGeral');
             loading.classList.remove('hidden');
+            const tbodyGeral = document.getElementById('tabelaCorpoGeral');
+            tbodyGeral.innerHTML = '';
+
 
             try {
                 const q = query(collection(db, "visitantes"), orderBy("dataRegistro", "desc"));
                 const querySnapshot = await getDocs(q);
                 
-                todosVisitantes = [];
-                const membrosSet = new Set();
+                todosRegistros = [];
 
                 querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    todosVisitantes.push(data);
-                    
-                    if(data.convidadoPor && data.convidadoPor !== "Não informado") {
-                        const nomeFormatado = data.convidadoPor.trim();
-                        membrosSet.add(nomeFormatado);
-                    }
+                    todosRegistros.push(doc.data());
                 });
+                
+                // 1. Atualiza Totais
+                const totalVisitantesCount = todosRegistros.filter(r => r.tipo === 'Visitante').length;
+                const totalMembrosCount = todosRegistros.filter(r => r.tipo === 'Membro').length;
+                const totalGeralCount = todosRegistros.length;
 
-                selectMembro.innerHTML = '<option value="">Todos os Membros</option>';
-                Array.from(membrosSet).sort().forEach(membro => {
-                    const option = document.createElement('option');
-                    option.value = membro;
-                    option.textContent = membro;
-                    selectMembro.appendChild(option);
-                });
+                document.getElementById('totalVisitantes').textContent = totalVisitantesCount;
+                document.getElementById('totalMembros').textContent = totalMembrosCount;
+                document.getElementById('totalGeral').textContent = totalGeralCount;
 
-                aplicarFiltros();
+                // 2. Aplica Filtros e Renderiza Tabela
+                aplicarFiltrosGerais();
+                carregarHistoricoVisitantes(); // Atualiza a aba de visitantes ao carregar tudo
 
             } catch (error) {
-                console.error("Erro ao buscar histórico:", error);
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-500">Erro ao carregar dados. Verifique permissões.</td></tr>`;
+                console.error("Erro ao buscar histórico geral:", error);
+                if (tbodyGeral) tbodyGeral.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-500">Erro ao carregar dados.</td></tr>`;
             } finally {
-                loading.classList.add('hidden');
+                if (loading) loading.classList.add('hidden');
             }
         }
 
-        window.aplicarFiltros = function() {
+        window.aplicarFiltrosGerais = function() {
+            const termoBusca = document.getElementById('buscaInputGeral').value.toLowerCase().trim();
+            const fTipo = document.getElementById('filtroTipoPessoa').value;
+
+            const filtrados = todosRegistros.filter(r => {
+                const nomeStr = (r.nome || "").toLowerCase();
+                const telefoneStr = (r.telefone || "").toLowerCase();
+                
+                // Busca por telefone só se aplica a visitantes, mas o nome é buscado em ambos
+                const matchBusca = termoBusca === "" || nomeStr.includes(termoBusca) || (r.tipo === 'Visitante' && telefoneStr.includes(termoBusca)); 
+                const matchTipo = fTipo === "" || r.tipo === fTipo;
+                
+                return matchBusca && matchTipo;
+            });
+
+            renderizarTabelaGeral(filtrados);
+        }
+
+        function renderizarTabelaGeral(lista) {
+            const tbody = document.getElementById('tabelaCorpoGeral');
+            const semResultados = document.getElementById('semResultadosGeral');
+            const contador = document.getElementById('contadorTotalGeral');
+            
+            tbody.innerHTML = '';
+            contador.textContent = lista.length;
+
+            if (lista.length === 0) {
+                semResultados.classList.remove('hidden');
+                return;
+            } else {
+                semResultados.classList.add('hidden');
+            }
+
+            lista.forEach(r => {
+                const dataObj = r.dataRegistro ? new Date(r.dataRegistro) : new Date();
+                const dataFormatada = dataObj.toLocaleDateString('pt-BR');
+                
+                let tipoBadge, detalhes, contatoDisplay;
+
+                if (r.tipo === 'Visitante') {
+                    tipoBadge = '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Visitante</span>';
+                    const visitaBadge = r.receberVisita === 'Sim' ? '<span class="text-[10px] text-green-700 ml-1">🏠 Visita</span>' : '';
+                    detalhes = `<span class="text-xs text-gray-600">Convidado por: ${r.convidadoPor || '-'}</span>${visitaBadge}`;
+                    contatoDisplay = r.telefone || '-';
+                } else { // Membro
+                    tipoBadge = '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Membro</span>';
+                    // Detalhes do Membro ATUALIZADOS
+                    let infoAdicional = `Função: ${r.funcao || '-'}`;
+                    if (r.grupoAssistencia && r.grupoAssistencia !== 'Não informado') {
+                        infoAdicional += ` | Grupo: ${r.grupoAssistencia}`; // Usando o Grupo de Assistência
+                    }
+                    detalhes = `<span class="text-xs text-gray-600">${infoAdicional}</span>`;
+                    contatoDisplay = 'N/A'; // Telefone removido do cadastro
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = r.tipo === 'Membro' ? 'hover:bg-green-50' : 'hover:bg-blue-50';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 whitespace-nowrap">${tipoBadge}</td>
+                    <td class="px-4 py-3">
+                        <div class="text-sm font-medium text-gray-900">${r.nome}</div>
+                        <div class="text-xs text-gray-500">${contatoDisplay}</div>
+                    </td>
+                    <td class="px-4 py-3">${detalhes}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${dataFormatada}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Event Listeners da Aba Histórico Geral
+        document.getElementById('buscaInputGeral').addEventListener('input', aplicarFiltrosGerais);
+        document.getElementById('filtroTipoPessoa').addEventListener('change', aplicarFiltrosGerais);
+
+        // --- LÓGICA DO HISTÓRICO VISITANTES ---
+
+        window.carregarHistoricoVisitantes = function() {
+            // Filtra a lista global para obter apenas visitantes
+            const visitantes = todosRegistros.filter(r => r.tipo === 'Visitante');
+            
+            const selectMembro = document.getElementById('filtroMembro');
+            const membrosSet = new Set();
+            visitantes.forEach(v => {
+                if(v.convidadoPor && v.convidadoPor !== "Não informado") {
+                    membrosSet.add(v.convidadoPor.trim());
+                }
+            });
+
+            selectMembro.innerHTML = '<option value="">Todos os Membros</option>';
+            Array.from(membrosSet).sort().forEach(membro => {
+                const option = document.createElement('option');
+                option.value = membro;
+                option.textContent = membro;
+                selectMembro.appendChild(option);
+            });
+
+            aplicarFiltrosVisitantes();
+        }
+
+        window.aplicarFiltrosVisitantes = function() {
+            // Filtra a lista global para obter apenas visitantes
+            const visitantes = todosRegistros.filter(r => r.tipo === 'Visitante');
+            
             const fMembro = document.getElementById('filtroMembro').value.toLowerCase();
             const fIdade = document.getElementById('filtroIdade').value;
-            const fSexo = document.getElementById('filtroSexo').value;
-            const fLocalidade = document.getElementById('buscaLocalidade').value.toLowerCase().trim();
+            const fSexo = document.getElementById('filtroSexoVisitante').value;
+            const termoBusca = document.getElementById('buscaInputVisitante').value.toLowerCase().trim();
+            const fVisita = document.getElementById('filtroVisita').value;
 
-            const filtrados = todosVisitantes.filter(v => {
+            const filtrados = visitantes.filter(v => {
+                const nomeStr = v.nome ? v.nome.toLowerCase() : "";
                 const enderecoStr = v.endereco ? v.endereco.toLowerCase() : "";
                 
-                const matchLocalidade = fLocalidade === "" || enderecoStr.includes(fLocalidade);
+                const matchBusca = termoBusca === "" || nomeStr.includes(termoBusca) || enderecoStr.includes(termoBusca);
                 const matchMembro = fMembro === "" || (v.convidadoPor && v.convidadoPor.toLowerCase().includes(fMembro));
                 const matchIdade = fIdade === "" || v.faixaEtaria === fIdade;
                 const matchSexo = fSexo === "" || v.sexo === fSexo;
+                const matchVisita = fVisita === "" || v.receberVisita === fVisita;
                 
-                return matchLocalidade && matchMembro && matchIdade && matchSexo;
+                return matchBusca && matchMembro && matchIdade && matchSexo && matchVisita;
             });
 
-            renderizarTabela(filtrados);
+            renderizarTabelaVisitantes(filtrados);
         }
 
-        function renderizarTabela(lista) {
-            const tbody = document.getElementById('tabelaCorpo');
-            const semResultados = document.getElementById('semResultados');
-            const contador = document.getElementById('contadorTotal');
+        function renderizarTabelaVisitantes(lista) {
+            const tbody = document.getElementById('tabelaCorpoVisitantes');
+            const semResultados = document.getElementById('semResultadosVisitantes');
+            const contador = document.getElementById('contadorTotalVisitantes');
             
             tbody.innerHTML = '';
             contador.textContent = lista.length;
@@ -374,9 +679,15 @@
             }
 
             lista.forEach(v => {
-                const dataObj = v.dataRegistro ? new Date(v.dataRegistro) : new Date();
-                const dataFormatada = dataObj.toLocaleDateString('pt-BR');
                 const corBadge = v.sexo === 'Masculino' ? 'bg-blue-100 text-blue-800' : (v.sexo === 'Feminino' ? 'bg-pink-100 text-pink-800' : 'bg-gray-100 text-gray-800');
+                
+                // CÓDIGO para a coluna Visita?
+                let visitaContent;
+                if (v.receberVisita === 'Sim') {
+                    visitaContent = '<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">✅ Sim</span>';
+                } else {
+                    visitaContent = '<span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">❌ Não</span>';
+                }
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -391,6 +702,9 @@
                         </span>
                         <div class="text-xs text-gray-500 mt-1">${v.faixaEtaria}</div>
                     </td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm">
+                        ${visitaContent}
+                    </td>
                     <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-400">
                         ${v.convidadoPor}
                     </td>
@@ -398,16 +712,19 @@
                 tbody.appendChild(tr);
             });
         }
-
-        // Event Listeners
-        document.getElementById('buscaLocalidade').addEventListener('input', aplicarFiltros);
-        document.getElementById('filtroMembro').addEventListener('change', aplicarFiltros);
-        document.getElementById('filtroIdade').addEventListener('change', aplicarFiltros);
-        document.getElementById('filtroSexo').addEventListener('change', aplicarFiltros);
+        
+        // Event Listeners da Aba Histórico Visitantes
+        document.getElementById('buscaInputVisitante').addEventListener('input', aplicarFiltrosVisitantes);
+        document.getElementById('filtroMembro').addEventListener('change', aplicarFiltrosVisitantes);
+        document.getElementById('filtroIdade').addEventListener('change', aplicarFiltrosVisitantes);
+        document.getElementById('filtroSexoVisitante').addEventListener('change', aplicarFiltrosVisitantes);
+        document.getElementById('filtroVisita').addEventListener('change', aplicarFiltrosVisitantes);
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             authenticate();
+            // Carrega os dados uma vez na inicialização para popular ambas as abas de histórico rapidamente
+            carregarHistoricoGeral(); 
         });
 
     </script>
