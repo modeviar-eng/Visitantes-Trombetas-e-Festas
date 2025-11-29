@@ -49,6 +49,23 @@
         <p class="text-center text-gray-500 mb-6">Ficha de registro para quem está nos visitando.</p>
 
         <form id="formularioVisitante" class="space-y-5">
+             <div class="border-b border-indigo-200 pb-4">
+                <label class="block text-sm font-bold text-indigo-700 mb-2">📍 Igreja de Lotação <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-3">
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-indigo-50 transition peer-checked:border-indigo-600">
+                        <input type="radio" name="igreja_visitante" value="Centro - Açailandia" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-indigo-700 peer-checked:font-bold">Centro - Açailandia</span>
+                    </label>
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-indigo-50 transition peer-checked:border-indigo-600">
+                        <input type="radio" name="igreja_visitante" value="Itinga" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-indigo-700 peer-checked:font-bold">Itinga</span>
+                    </label>
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-indigo-50 transition peer-checked:border-indigo-600">
+                        <input type="radio" name="igreja_visitante" value="Dom Eliseu" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-indigo-700 peer-checked:font-bold">Dom Eliseu</span>
+                    </label>
+                </div>
+            </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
                 <input type="text" id="nome_visitante" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
@@ -144,6 +161,23 @@
         <p class="text-center text-gray-500 mb-6">Registro para contabilizar a presença de membros.</p>
 
         <form id="formularioMembro" class="space-y-5">
+            <div class="border-b border-green-200 pb-4">
+                <label class="block text-sm font-bold text-green-700 mb-2">📍 Igreja de Lotação <span class="text-red-500">*</span></label>
+                <div class="flex flex-wrap gap-3">
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-green-50 transition peer-checked:border-green-600">
+                        <input type="radio" name="igreja_membro" value="Centro - Açailandia" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-green-700 peer-checked:font-bold">Centro - Açailandia</span>
+                    </label>
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-green-50 transition peer-checked:border-green-600">
+                        <input type="radio" name="igreja_membro" value="Itinga" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-green-700 peer-checked:font-bold">Itinga</span>
+                    </label>
+                    <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-green-50 transition peer-checked:border-green-600">
+                        <input type="radio" name="igreja_membro" value="Dom Eliseu" required class="sr-only peer"> 
+                        <span class="text-sm font-medium text-gray-600 peer-checked:text-green-700 peer-checked:font-bold">Dom Eliseu</span>
+                    </label>
+                </div>
+            </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome Completo <span class="text-red-500">*</span></label>
                 <input type="text" id="nome_membro" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition">
@@ -225,72 +259,92 @@
 
     <div id="view-historicoVisitantes" class="tab-content w-full max-w-4xl bg-white p-6 rounded-xl shadow-lg border border-gray-100 hidden">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Histórico de VISITANTES</h2>
+            <h2 class="text-xl font-bold text-gray-800">📂 Histórico de VISITANTES</h2>
             <button onclick="carregarHistoricoGeral(true)" class="text-sm text-indigo-600 hover:underline flex items-center">
                 🔄 Atualizar Lista
             </button>
         </div>
 
-        <div class="mb-6">
-             <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Localidade)</label>
-             <input type="text" id="buscaInputVisitante" oninput="aplicarFiltrosVisitantes()" placeholder="Digite um nome, bairro ou rua..." 
-                    class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+        <div class="bg-red-50 p-3 rounded-lg border border-red-200 mb-6">
+            <label class="block text-sm font-bold text-red-700 mb-2">Selecione a Igreja para Visualizar o Histórico <span class="text-red-500">*</span></label>
+            <div class="flex flex-wrap gap-3">
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_visitante" value="Centro - Açailandia" onchange="carregarHistoricoVisitantes()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Centro - Açailandia</span>
+                </label>
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_visitante" value="Itinga" onchange="carregarHistoricoVisitantes()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Itinga</span>
+                </label>
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_visitante" value="Dom Eliseu" onchange="carregarHistoricoVisitantes()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Dom Eliseu</span>
+                </label>
+            </div>
+            <div id="avisoIgrejaVisitante" class="text-xs text-red-500 mt-2 font-medium">⚠️ Por favor, selecione uma igreja para carregar os dados.</div>
         </div>
+        <div id="conteudoHistoricoVisitante" class="hidden">
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Localidade)</label>
+                <input type="text" id="buscaInputVisitante" oninput="aplicarFiltrosVisitantes()" placeholder="Digite um nome, bairro ou rua..." 
+                        class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">1. Convidado Por</label>
-                <select id="filtroMembro" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
-                    <option value="">Todos</option>
-                </select>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6 bg-gray-50 p-4 rounded-lg">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">1. Convidado Por</label>
+                    <select id="filtroMembro" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">2. Faixa Etária</label>
+                    <select id="filtroIdade" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                        <option value="">Todas</option>
+                        <option value="0-3">0 a 3 anos</option><option value="3-7">3 a 7 anos</option><option value="7-11">7 a 11 anos</option>
+                        <option value="11-15">11 a 15 anos</option><option value="15-30">15 a 30 anos</option><option value="30-60">30 a 60 anos</option>
+                        <option value="60+">60 anos ou mais</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">3. Sexo</label>
+                    <select id="filtroSexoVisitante" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
+                        <option value="">Todos</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Não informado">Não informado</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">4. Quer Visita?</label>
+                    <select id="filtroVisita" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 font-medium text-indigo-700 bg-indigo-50">
+                        <option value="">Todos</option>
+                        <option value="Sim">✅ Sim, quer visita</option>
+                        <option value="Não">❌ Não</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">2. Faixa Etária</label>
-                <select id="filtroIdade" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
-                    <option value="">Todas</option>
-                    <option value="0-3">0 a 3 anos</option><option value="3-7">3 a 7 anos</option><option value="7-11">7 a 11 anos</option>
-                    <option value="11-15">11 a 15 anos</option><option value="15-30">15 a 30 anos</option><option value="30-60">30 a 60 anos</option>
-                    <option value="60+">60 anos ou mais</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">3. Sexo</label>
-                <select id="filtroSexoVisitante" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500">
-                    <option value="">Todos</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Feminino">Feminino</option>
-                    <option value="Não informado">Não informado</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">4. Quer Visita?</label>
-                <select id="filtroVisita" onchange="aplicarFiltrosVisitantes()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 font-medium text-indigo-700 bg-indigo-50">
-                    <option value="">Todos</option>
-                    <option value="Sim">✅ Sim, quer visita</option>
-                    <option value="Não">❌ Não</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localidade</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perfil</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visita?</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Convidado Por</th>
-                    </tr>
-                </thead>
-                <tbody id="tabelaCorpoVisitantes" class="bg-white divide-y divide-gray-200"></tbody>
-            </table>
-            <div id="loadingHistoricoVisitantes" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
-            <div id="semResultadosVisitantes" class="text-center py-4 text-gray-500 hidden">Nenhum visitante encontrado com esses filtros.</div>
-        </div>
-        
-        <div class="mt-4 text-right text-xs text-gray-400">
-            Visitantes listados: <span id="contadorTotalVisitantes" class="font-bold text-gray-700">0</span>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localidade</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perfil</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visita?</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Convidado Por</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaCorpoVisitantes" class="bg-white divide-y divide-gray-200"></tbody>
+                </table>
+                <div id="loadingHistoricoVisitantes" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
+                <div id="semResultadosVisitantes" class="text-center py-4 text-gray-500 hidden">Nenhum visitante encontrado com esses filtros.</div>
+            </div>
+            
+            <div class="mt-4 text-right text-xs text-gray-400">
+                Visitantes listados: <span id="contadorTotalVisitantes" class="font-bold text-gray-700">0</span>
+            </div>
         </div>
     </div>
 
@@ -302,57 +356,77 @@
                 🔄 Atualizar Totais
             </button>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="card-resumo bg-indigo-50 border-l-4 border-indigo-500">
-                <div class="text-sm font-medium text-indigo-600">Total Geral</div>
-                <div id="totalGeral" class="text-3xl font-bold text-gray-900">0</div>
+        
+         <div class="bg-red-50 p-3 rounded-lg border border-red-200 mb-6">
+            <label class="block text-sm font-bold text-red-700 mb-2">Selecione a Igreja para Visualizar o Histórico <span class="text-red-500">*</span></label>
+            <div class="flex flex-wrap gap-3">
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_geral" value="Centro - Açailandia" onchange="carregarHistoricoGeral()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Centro - Açailandia</span>
+                </label>
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_geral" value="Itinga" onchange="carregarHistoricoGeral()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Itinga</span>
+                </label>
+                <label class="border rounded-md p-3 flex items-center justify-center cursor-pointer hover:bg-gray-100 transition">
+                    <input type="radio" name="filtro_igreja_geral" value="Dom Eliseu" onchange="carregarHistoricoGeral()" class="form-radio text-red-600"> 
+                    <span class="ml-2 text-sm font-medium text-gray-700">Dom Eliseu</span>
+                </label>
             </div>
-            <div class="card-resumo bg-blue-50 border-l-4 border-blue-500">
-                <div class="text-sm font-medium text-blue-600">Total Visitantes</div>
-                <div id="totalVisitantes" class="text-3xl font-bold text-gray-900">0</div>
-            </div>
-            <div class="card-resumo bg-green-50 border-l-4 border-green-500">
-                <div class="text-sm font-medium text-green-600">Total Membros</div>
-                <div id="totalMembros" class="text-3xl font-bold text-gray-900">0</div>
-            </div>
+             <div id="avisoIgrejaGeral" class="text-xs text-red-500 mt-2 font-medium">⚠️ Por favor, selecione uma igreja para carregar os dados.</div>
         </div>
+        <div id="conteudoHistoricoGeral" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="card-resumo bg-indigo-50 border-l-4 border-indigo-500">
+                    <div class="text-sm font-medium text-indigo-600">Total Geral</div>
+                    <div id="totalGeral" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+                <div class="card-resumo bg-blue-50 border-l-4 border-blue-500">
+                    <div class="text-sm font-medium text-blue-600">Total Visitantes</div>
+                    <div id="totalVisitantes" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+                <div class="card-resumo bg-green-50 border-l-4 border-green-500">
+                    <div class="text-sm font-medium text-green-600">Total Membros</div>
+                    <div id="totalMembros" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+            </div>
 
-        <div class="bg-white p-4 rounded-lg shadow-sm">
-            <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Lista Unificada</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Contato)</label>
-                    <input type="text" id="buscaInputGeral" oninput="aplicarFiltrosGerais()" placeholder="Buscar por nome ou telefone..." 
-                           class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+                <h3 class="text-lg font-semibold text-gray-700 mb-3 border-b pb-2">Lista Unificada</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Busca Rápida (Nome ou Contato)</label>
+                        <input type="text" id="buscaInputGeral" oninput="aplicarFiltrosGerais()" placeholder="Buscar por nome ou telefone..." 
+                               class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Filtro por Tipo</label>
+                        <select id="filtroTipoPessoa" onchange="aplicarFiltrosGerais()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 bg-gray-100 font-medium">
+                            <option value="">TODOS (Visitantes e Membros)</option>
+                            <option value="Visitante">Somente Visitantes</option>
+                            <option value="Membro">Somente Membros</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Filtro por Tipo</label>
-                    <select id="filtroTipoPessoa" onchange="aplicarFiltrosGerais()" class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 bg-gray-100 font-medium">
-                        <option value="">TODOS (Visitantes e Membros)</option>
-                        <option value="Visitante">Somente Visitantes</option>
-                        <option value="Membro">Somente Membros</option>
-                    </select>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detalhes</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaCorpoGeral" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                    <div id="loadingHistoricoGeral" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
+                    <div id="semResultadosGeral" class="text-center py-4 text-gray-500 hidden">Nenhuma pessoa encontrada com esse filtro.</div>
                 </div>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome / Contato</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detalhes</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelaCorpoGeral" class="bg-white divide-y divide-gray-200"></tbody>
-                </table>
-                <div id="loadingHistoricoGeral" class="text-center py-4 text-gray-500 hidden">Carregando dados...</div>
-                <div id="semResultadosGeral" class="text-center py-4 text-gray-500 hidden">Nenhuma pessoa encontrada com esse filtro.</div>
-            </div>
-            <div class="mt-4 text-right text-xs text-gray-400">
-                Pessoas listadas: <span id="contadorTotalGeral" class="font-bold text-gray-700">0</span>
+                <div class="mt-4 text-right text-xs text-gray-400">
+                    Pessoas listadas: <span id="contadorTotalGeral" class="font-bold text-gray-700">0</span>
+                </div>
             </div>
         </div>
     </div>
@@ -407,7 +481,9 @@
 
             // Carregamento de dados específicos para abas de histórico
             if(['historicoVisitantes', 'historicoGeral'].includes(tabName)) {
-                carregarHistoricoGeral();
+                // Ao mudar para as abas de histórico, tentamos carregar, mas a lógica de filtro
+                // garantirá que nada seja exibido se a igreja não for selecionada.
+                carregarHistoricoGeral(); 
             }
         };
 
@@ -453,12 +529,19 @@
         document.getElementById('formularioVisitante').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const igrejaEl = document.querySelector('input[name="igreja_visitante"]:checked'); // NOVO: Igreja
             const sexoEl = document.querySelector('input[name="sexo_visitante"]:checked');
             const faixaEl = document.querySelector('input[name="faixa_etaria_visitante"]:checked');
             const visitaEl = document.querySelector('input[name="receber_visita_visitante"]:checked');
 
+            if (!igrejaEl) {
+                alert("Por favor, selecione a Igreja de Lotação do Visitante.");
+                return;
+            }
+
             const dados = {
                 tipo: "Visitante",
+                igreja: igrejaEl.value, // NOVO: Salva a Igreja
                 nome: document.getElementById('nome_visitante').value.trim(),
                 telefone: document.getElementById('telefone_visitante').value.trim(),
                 endereco: document.getElementById('endereco_visitante').value.trim() || "Não informado",
@@ -477,20 +560,25 @@
         document.getElementById('formularioMembro').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const igrejaEl = document.querySelector('input[name="igreja_membro"]:checked'); // NOVO: Igreja
             const sexoEl = document.querySelector('input[name="sexo_membro"]:checked');
             const faixaEl = document.querySelector('input[name="faixa_etaria_membro"]:checked');
-            // NOVO: Coleta o valor do grupo de assistência
             const grupoEl = document.querySelector('input[name="grupo_assistencia_membro"]:checked');
+
+            if (!igrejaEl) {
+                alert("Por favor, selecione a Igreja de Lotação do Membro.");
+                return;
+            }
 
             const dados = {
                 tipo: "Membro", 
+                igreja: igrejaEl.value, // NOVO: Salva a Igreja
                 nome: document.getElementById('nome_membro').value.trim(),
                 telefone: "N/A - Cadastro Membro", 
                 endereco: "Membro", 
                 sexo: sexoEl ? sexoEl.value : "Não informado",
                 faixaEtaria: faixaEl ? faixaEl.value : "Não Informada", 
                 funcao: document.getElementById('funcao_membro').value.trim() || "Não informado",
-                // NOVO: Usa o valor do rádio button, se selecionado
                 grupoAssistencia: grupoEl ? grupoEl.value : "Não informado", 
                 dataRegistro: new Date().toISOString()
             };
@@ -501,9 +589,26 @@
         // --- LÓGICA DO HISTÓRICO GERAL (Nova Aba) ---
         
         window.carregarHistoricoGeral = async function() {
+            const fIgreja = document.querySelector('input[name="filtro_igreja_geral"]:checked')?.value;
             const loading = document.getElementById('loadingHistoricoGeral');
-            loading.classList.remove('hidden');
+            const conteudo = document.getElementById('conteudoHistoricoGeral');
+            const aviso = document.getElementById('avisoIgrejaGeral');
             const tbodyGeral = document.getElementById('tabelaCorpoGeral');
+
+            if (!fIgreja) {
+                aviso.classList.remove('hidden');
+                conteudo.classList.add('hidden');
+                tbodyGeral.innerHTML = '';
+                // Zera os totais quando não há igreja selecionada
+                document.getElementById('totalVisitantes').textContent = 0;
+                document.getElementById('totalMembros').textContent = 0;
+                document.getElementById('totalGeral').textContent = 0;
+                return;
+            }
+            
+            aviso.classList.add('hidden');
+            conteudo.classList.remove('hidden');
+            loading.classList.remove('hidden');
             tbodyGeral.innerHTML = '';
 
 
@@ -511,25 +616,28 @@
                 const q = query(collection(db, "visitantes"), orderBy("dataRegistro", "desc"));
                 const querySnapshot = await getDocs(q);
                 
+                // Carrega todos os registros
                 todosRegistros = [];
-
                 querySnapshot.forEach((doc) => {
                     todosRegistros.push(doc.data());
                 });
                 
+                // Filtra pelo valor da igreja selecionada
+                const registrosFiltradosPorIgreja = todosRegistros.filter(r => r.igreja === fIgreja);
+
                 // 1. Atualiza Totais
-                const totalVisitantesCount = todosRegistros.filter(r => r.tipo === 'Visitante').length;
-                const totalMembrosCount = todosRegistros.filter(r => r.tipo === 'Membro').length;
-                const totalGeralCount = todosRegistros.length;
+                const totalVisitantesCount = registrosFiltradosPorIgreja.filter(r => r.tipo === 'Visitante').length;
+                const totalMembrosCount = registrosFiltradosPorIgreja.filter(r => r.tipo === 'Membro').length;
+                const totalGeralCount = registrosFiltradosPorIgreja.length;
 
                 document.getElementById('totalVisitantes').textContent = totalVisitantesCount;
                 document.getElementById('totalMembros').textContent = totalMembrosCount;
                 document.getElementById('totalGeral').textContent = totalGeralCount;
 
-                // 2. Aplica Filtros e Renderiza Tabela
-                aplicarFiltrosGerais();
-                carregarHistoricoVisitantes(); // Atualiza a aba de visitantes ao carregar tudo
-
+                // 2. Aplica Filtros e Renderiza Tabela, PASSANDO A LISTA JÁ FILTRADA PELA IGREJA
+                aplicarFiltrosGerais(registrosFiltradosPorIgreja);
+                carregarHistoricoVisitantes(); // Chama o carregamento de visitantes que usará a mesma lista global filtrada
+                
             } catch (error) {
                 console.error("Erro ao buscar histórico geral:", error);
                 if (tbodyGeral) tbodyGeral.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-500">Erro ao carregar dados.</td></tr>`;
@@ -538,15 +646,23 @@
             }
         }
 
-        window.aplicarFiltrosGerais = function() {
+        // CORRIGIDA: A lista inicial agora é a lista filtrada pela igreja, e o filtro de Tipo é aplicado sobre ela.
+        window.aplicarFiltrosGerais = function(listaInicialIgreja) {
+            // Se listaInicialIgreja não for fornecida (ex: chamada pelo oninput), a recriamos
+            if (!listaInicialIgreja) {
+                 const fIgreja = document.querySelector('input[name="filtro_igreja_geral"]:checked')?.value;
+                 if (!fIgreja) return; // Se não houver igreja, não faz nada
+                 listaInicialIgreja = todosRegistros.filter(r => r.igreja === fIgreja);
+            }
+
             const termoBusca = document.getElementById('buscaInputGeral').value.toLowerCase().trim();
             const fTipo = document.getElementById('filtroTipoPessoa').value;
-
-            const filtrados = todosRegistros.filter(r => {
+            
+            // Usa listaInicialIgreja (já filtrada por Igreja) como base
+            const filtrados = listaInicialIgreja.filter(r => {
                 const nomeStr = (r.nome || "").toLowerCase();
                 const telefoneStr = (r.telefone || "").toLowerCase();
                 
-                // Busca por telefone só se aplica a visitantes, mas o nome é buscado em ambos
                 const matchBusca = termoBusca === "" || nomeStr.includes(termoBusca) || (r.tipo === 'Visitante' && telefoneStr.includes(termoBusca)); 
                 const matchTipo = fTipo === "" || r.tipo === fTipo;
                 
@@ -587,10 +703,10 @@
                     // Detalhes do Membro ATUALIZADOS
                     let infoAdicional = `Função: ${r.funcao || '-'}`;
                     if (r.grupoAssistencia && r.grupoAssistencia !== 'Não informado') {
-                        infoAdicional += ` | Grupo: ${r.grupoAssistencia}`; // Usando o Grupo de Assistência
+                        infoAdicional += ` | Grupo: ${r.grupoAssistencia}`; 
                     }
                     detalhes = `<span class="text-xs text-gray-600">${infoAdicional}</span>`;
-                    contatoDisplay = 'N/A'; // Telefone removido do cadastro
+                    contatoDisplay = 'N/A';
                 }
 
                 const tr = document.createElement('tr');
@@ -608,15 +724,27 @@
             });
         }
         
-        // Event Listeners da Aba Histórico Geral
-        document.getElementById('buscaInputGeral').addEventListener('input', aplicarFiltrosGerais);
-        document.getElementById('filtroTipoPessoa').addEventListener('change', aplicarFiltrosGerais);
-
         // --- LÓGICA DO HISTÓRICO VISITANTES ---
 
         window.carregarHistoricoVisitantes = function() {
-            // Filtra a lista global para obter apenas visitantes
-            const visitantes = todosRegistros.filter(r => r.tipo === 'Visitante');
+            const fIgreja = document.querySelector('input[name="filtro_igreja_visitante"]:checked')?.value;
+            const conteudo = document.getElementById('conteudoHistoricoVisitante');
+            const aviso = document.getElementById('avisoIgrejaVisitante');
+            const tbodyVisitantes = document.getElementById('tabelaCorpoVisitantes');
+
+            if (!fIgreja) {
+                aviso.classList.remove('hidden');
+                conteudo.classList.add('hidden');
+                tbodyVisitantes.innerHTML = '';
+                document.getElementById('contadorTotalVisitantes').textContent = 0;
+                return;
+            }
+            
+            aviso.classList.add('hidden');
+            conteudo.classList.remove('hidden');
+
+            // Filtra a lista global (já carregada pelo carregarHistoricoGeral) para obter apenas visitantes da igreja selecionada
+            const visitantes = todosRegistros.filter(r => r.tipo === 'Visitante' && r.igreja === fIgreja);
             
             const selectMembro = document.getElementById('filtroMembro');
             const membrosSet = new Set();
@@ -626,6 +754,7 @@
                 }
             });
 
+            // Popula o filtro "Convidado Por"
             selectMembro.innerHTML = '<option value="">Todos os Membros</option>';
             Array.from(membrosSet).sort().forEach(membro => {
                 const option = document.createElement('option');
@@ -634,12 +763,19 @@
                 selectMembro.appendChild(option);
             });
 
-            aplicarFiltrosVisitantes();
+            aplicarFiltrosVisitantes(visitantes);
         }
 
-        window.aplicarFiltrosVisitantes = function() {
-            // Filtra a lista global para obter apenas visitantes
-            const visitantes = todosRegistros.filter(r => r.tipo === 'Visitante');
+        window.aplicarFiltrosVisitantes = function(listaInicialIgrejaVisitante) {
+            const fIgreja = document.querySelector('input[name="filtro_igreja_visitante"]:checked')?.value;
+            if (!fIgreja) return; // Nao executa se a igreja nao estiver selecionada
+
+            // Se a lista não for passada (ex: chamada pelo oninput), a recriamos
+            if (!listaInicialIgrejaVisitante) {
+                listaInicialIgrejaVisitante = todosRegistros.filter(r => r.tipo === 'Visitante' && r.igreja === fIgreja);
+            }
+
+            // A listaInicialIgrejaVisitante já está filtrada por tipo e igreja. Usamos ela como base.
             
             const fMembro = document.getElementById('filtroMembro').value.toLowerCase();
             const fIdade = document.getElementById('filtroIdade').value;
@@ -647,7 +783,7 @@
             const termoBusca = document.getElementById('buscaInputVisitante').value.toLowerCase().trim();
             const fVisita = document.getElementById('filtroVisita').value;
 
-            const filtrados = visitantes.filter(v => {
+            const filtrados = listaInicialIgrejaVisitante.filter(v => {
                 const nomeStr = v.nome ? v.nome.toLowerCase() : "";
                 const enderecoStr = v.endereco ? v.endereco.toLowerCase() : "";
                 
@@ -720,11 +856,15 @@
         document.getElementById('filtroSexoVisitante').addEventListener('change', aplicarFiltrosVisitantes);
         document.getElementById('filtroVisita').addEventListener('change', aplicarFiltrosVisitantes);
 
+        // Event Listeners da Aba Histórico Geral
+        document.getElementById('buscaInputGeral').addEventListener('input', aplicarFiltrosGerais);
+        document.getElementById('filtroTipoPessoa').addEventListener('change', aplicarFiltrosGerais);
+        
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             authenticate();
-            // Carrega os dados uma vez na inicialização para popular ambas as abas de histórico rapidamente
-            carregarHistoricoGeral(); 
+            // Nenhuma chamada para carregarHistoricoGeral() aqui.
+            // O carregamento inicial será acionado apenas ao selecionar a igreja na aba de histórico.
         });
 
     </script>
